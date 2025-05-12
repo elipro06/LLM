@@ -9,17 +9,20 @@ st.set_page_config(page_title="Análisis de Imagen con IA", layout="centered", i
 # --- Estilos personalizados ---
 st.markdown("""
     <style>
-    html, body, .main {
-        background-color: #dbeeff;  /* azul claro */
-        color: #000000;  /* texto negro */
-        font-family: 'Segoe UI', sans-serif;
+    html, body, [data-testid="stApp"] {
+        background-color: #dbeeff !important;  /* Fondo azul claro */
+        color: #000000 !important;  /* Texto negro */
     }
-    h1, h2, h3, p, label, span {
-        color: #000000 !important;  /* asegura texto negro */
+    .block-container {
+        background-color: #dbeeff !important;
+        color: #000000 !important;
+    }
+    h1, h2, h3, p, label, span, div {
+        color: #000000 !important;
     }
     .stButton > button {
         background: linear-gradient(90deg, #4a90e2, #50a7f6);
-        color: white;
+        color: white !important;
         font-weight: bold;
         border-radius: 10px;
         height: 50px;
@@ -27,25 +30,22 @@ st.markdown("""
         margin-top: 10px;
     }
     .stTextInput > div > input, .stTextArea textarea {
-        background-color: #ffffff;
+        background-color: #ffffff !important;
         border: 1px solid #a0c4ff;
         border-radius: 10px;
         padding: 10px;
         font-size: 15px;
-        color: #000000;
+        color: #000000 !important;
     }
     .st-expander > summary {
         font-size: 17px;
         font-weight: bold;
-        color: #000000;
+        color: #000000 !important;
     }
     .stFileUploader label {
         font-size: 16px;
         font-weight: 500;
-        color: #000000;
-    }
-    .stToggleSwitch {
-        margin-top: 20px;
+        color: #000000 !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -114,12 +114,4 @@ if uploaded_file and api_key and analyze_button:
                     message_placeholder.markdown(full_response + "▌")
             message_placeholder.markdown(full_response)
         except Exception as e:
-            st.error(f"❌ Ocurrió un error: {e}")
-
-# --- Validaciones ---
-elif analyze_button:
-    if not uploaded_file:
-        st.warning("⚠️ Por favor sube una imagen antes de analizar.")
-    if not api_key:
-        st.warning("⚠️ Necesitas ingresar tu API Key para continuar.")
-
+            st.error(f"❌ Ocurrió un error:
