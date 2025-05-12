@@ -10,15 +10,15 @@ st.set_page_config(page_title="Análisis de Imagen con IA", layout="centered", i
 st.markdown("""
     <style>
     html, body, .main {
-        background-color: #f0f2f6;
+        background-color: #dbeeff;  /* azul claro */
+        color: #000000;  /* texto negro */
         font-family: 'Segoe UI', sans-serif;
-        color: #2c2c2c;
     }
-    h1, h2, h3 {
-        color: #333333;
+    h1, h2, h3, p, label, span {
+        color: #000000 !important;  /* asegura texto negro */
     }
     .stButton > button {
-        background: linear-gradient(90deg, #ff4b4b, #ff7b00);
+        background: linear-gradient(90deg, #4a90e2, #50a7f6);
         color: white;
         font-weight: bold;
         border-radius: 10px;
@@ -27,20 +27,22 @@ st.markdown("""
         margin-top: 10px;
     }
     .stTextInput > div > input, .stTextArea textarea {
-        background-color: white;
-        border: 1px solid #d0d0d0;
+        background-color: #ffffff;
+        border: 1px solid #a0c4ff;
         border-radius: 10px;
         padding: 10px;
         font-size: 15px;
+        color: #000000;
     }
     .st-expander > summary {
         font-size: 17px;
         font-weight: bold;
+        color: #000000;
     }
     .stFileUploader label {
         font-size: 16px;
         font-weight: 500;
-        color: #555;
+        color: #000000;
     }
     .stToggleSwitch {
         margin-top: 20px;
@@ -120,3 +122,4 @@ elif analyze_button:
         st.warning("⚠️ Por favor sube una imagen antes de analizar.")
     if not api_key:
         st.warning("⚠️ Necesitas ingresar tu API Key para continuar.")
+
