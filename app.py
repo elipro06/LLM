@@ -114,4 +114,12 @@ if uploaded_file and api_key and analyze_button:
                     message_placeholder.markdown(full_response + "▌")
             message_placeholder.markdown(full_response)
         except Exception as e:
-            st.error(f"❌ Ocurrió un error:
+            st.error(f"❌ Ocurrió un error: {e}")
+
+# --- Validaciones ---
+elif analyze_button:
+    if not uploaded_file:
+        st.warning("⚠️ Por favor sube una imagen antes de analizar.")
+    if not api_key:
+        st.warning("⚠️ Necesitas ingresar tu API Key para continuar.")
+
