@@ -3,36 +3,59 @@ import streamlit as st
 import base64
 from openai import OpenAI
 
-# Configuración de la página
+# --- Configuración de la página ---
 st.set_page_config(page_title="Análisis de Imagen con IA", layout="centered", initial_sidebar_state="collapsed")
 
 # --- Estilos personalizados ---
 st.markdown("""
     <style>
-    .main {
-        background-color: #f7f7f7;
+    html, body, .main {
+        background-color: #f0f2f6;
+        font-family: 'Segoe UI', sans-serif;
+        color: #2c2c2c;
+    }
+    h1, h2, h3 {
+        color: #333333;
     }
     .stButton > button {
-        background-color: #ff4b4b;
+        background: linear-gradient(90deg, #ff4b4b, #ff7b00);
         color: white;
-        border-radius: 8px;
-        height: 48px;
-        font-size: 16px;
-    }
-    .stTextInput, .stTextArea {
+        font-weight: bold;
         border-radius: 10px;
+        height: 50px;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+    .stTextInput > div > input, .stTextArea textarea {
+        background-color: white;
+        border: 1px solid #d0d0d0;
+        border-radius: 10px;
+        padding: 10px;
+        font-size: 15px;
+    }
+    .st-expander > summary {
+        font-size: 17px;
+        font-weight: bold;
+    }
+    .stFileUploader label {
+        font-size: 16px;
+        font-weight: 500;
+        color: #555;
+    }
+    .stToggleSwitch {
+        margin-top: 20px;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# --- Título principal con emojis ---
+# --- Título principal ---
 st.markdown("<h1 style='text-align: center;'>🧠✨ Análisis Inteligente de Imágenes</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; font-size: 18px;'>Carga una imagen y obtén una descripción detallada con ayuda de inteligencia artificial.</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-size: 18px;'>Carga una imagen y obtén una descripción detallada usando inteligencia artificial.</p>", unsafe_allow_html=True)
 st.divider()
 
 # --- Entrada de API Key ---
 with st.expander("🔐 Ingresar API Key de OpenAI", expanded=True):
-    ke = st.text_input("Ingresa tu clave privada aquí", type="password")
+    ke = st.text_input("Ingresa tu clave privada aquí", type="password", placeholder="sk-...")
     os.environ['OPENAI_API_KEY'] = ke
 
 api_key = os.environ.get('OPENAI_API_KEY', '')
@@ -43,23 +66,24 @@ client = OpenAI(api_key=api_key)
 uploaded_file = st.file_uploader("📷 Sube una imagen (JPG, PNG, JPEG)", type=["jpg", "jpeg", "png"])
 
 if uploaded_file:
-    st.image(uploaded_file, caption=f"Imagen cargada: {uploaded_file.name}", use_container_width=True)
+    st.image(uploaded_file, caption=f"🖼️ Imagen cargada: {uploaded_file.name}", use_container_width=True)
 
 # --- Detalles adicionales opcionales ---
-show_details = st.toggle("¿Quieres agregar contexto adicional?", value=False)
+show_details = st.toggle("🗒️ ¿Quieres agregar contexto adicional?", value=False)
 
 if show_details:
-    additional_details = st.text_area("📝 Escribe el contexto de la imagen aquí")
+    additional_details = st.text_area("✍️ Escribe el contexto de la imagen aquí", placeholder="Por ejemplo: esta imagen fue tomada en una marcha...")
 
 # --- Botón para analizar imagen ---
 analyze_button = st.button("🔍 Analizar imagen")
 
-# --- Lógica de análisis con OpenAI ---
+# --- Función para codificar imagen ---
 def encode_image(image_file):
     return base64.b64encode(image_file.getvalue()).decode("utf-8")
 
+# --- Análisis ---
 if uploaded_file and api_key and analyze_button:
-    with st.spinner("Analizando la imagen con IA..."):
+    with st.spinner("🧠 Analizando la imagen con IA..."):
         base64_image = encode_image(uploaded_file)
 
         prompt_text = "Describe en español lo que ves en esta imagen."
@@ -90,7 +114,7 @@ if uploaded_file and api_key and analyze_button:
         except Exception as e:
             st.error(f"❌ Ocurrió un error: {e}")
 
-# --- Mensajes de advertencia si algo falta ---
+# --- Validaciones ---
 elif analyze_button:
     if not uploaded_file:
         st.warning("⚠️ Por favor sube una imagen antes de analizar.")
